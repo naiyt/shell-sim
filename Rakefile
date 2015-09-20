@@ -1,5 +1,5 @@
 require "rspec/core/rake_task"
-require "shell-sim"
+require "shell_sim"
 
 task :default => :spec
 RSpec::Core::RakeTask.new

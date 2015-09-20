@@ -1,9 +1,9 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'shell-sim/version'
+require 'shell_sim/version'
 
 Gem::Specification.new do |gem|
-  gem.name           =  'shell-sim'
+  gem.name           =  'shell_sim'
   gem.version        =  ShellSim::VERSION
   gem.date           =  '2015-09-19'
   gem.summary        =  'Simulates a *nix type shell'
@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($/)
   gem.executables   = []
   gem.test_files    = gem.files.grep(%r{^(test|spec)/})
-  gem.require_paths = ["lib"]
+  gem.require_paths = ['lib']
 
   gem.required_ruby_version = '>= 2.1.5'
   gem.add_dependency 'highline'

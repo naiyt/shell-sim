@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    shell-sim (0.0.1)
+    shell_sim (0.0.1)
       colorize
       highline
 
@@ -44,4 +44,4 @@ DEPENDENCIES
   pry-nav
   rspec
   rspec-mocks
-  shell-sim!
+  shell_sim!
