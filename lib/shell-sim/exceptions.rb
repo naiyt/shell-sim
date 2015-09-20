@@ -1,3 +1,8 @@
+module Commands
+  class NotImplemented < StandardError
+  end
+end
+
 module Filesystem
   class AlreadyExistsError < StandardError
   end
@@ -17,3 +22,4 @@ module Filesystem
   class FileNotDir < StandardError
   end
 end
+

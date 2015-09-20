@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gemspec
+
 gem 'highline'
 gem 'pry'
 gem 'pry-nav'
