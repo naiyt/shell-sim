@@ -1,6 +1,5 @@
 require 'singleton'
 require 'yaml'
-require_relative 'exceptions'
 
 module Filesystem
   class Table

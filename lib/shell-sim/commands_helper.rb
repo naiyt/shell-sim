@@ -1,7 +1,4 @@
-require 'pry'
 require 'singleton'
-require_relative 'output_helper'
-require_relative 'exceptions'
 
 module Commands
   STDOUT = :stdout
