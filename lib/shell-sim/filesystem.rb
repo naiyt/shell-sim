@@ -1,5 +1,4 @@
 require 'singleton'
-require 'yaml'
 
 module Filesystem
   class Table
@@ -23,12 +22,13 @@ module Filesystem
       reinit
     end
 
-    def reinit
-      default_fs = YAML.load_file './filesystem/default_fs.yml'
+    def reinit(fs_structure=nil)
+      return if fs_structure.nil? && @fs_structure.nil?
+      @fs_structure ||= fs_structure
       @root = Directory.new('root')
       @pwd = @root
       Table.instance.reinit
-      add_all_defaults(default_fs['root'], @root)
+      add_all_defaults(@fs_structure['root'], @root)
     end
 
     def cd(directory)
