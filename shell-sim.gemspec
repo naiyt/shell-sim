@@ -4,7 +4,7 @@ require 'shell-sim/version'
 
 Gem::Specification.new do |gem|
   gem.name           =  'shell-sim'
-  gem.version        =  ShellSim::Version
+  gem.version        =  ShellSim::VERSION
   gem.date           =  '2015-09-19'
   gem.summary        =  'Simulates a *nix type shell'
   gem.description    =  'TODO: Add description'

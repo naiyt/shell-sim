@@ -1,3 +1,4 @@
-require 'rspec'
-require_relative '../shell/shell'
+require 'shell-sim'
+require 'pry'
 String.disable_colorization = true
+

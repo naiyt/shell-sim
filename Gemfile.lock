@@ -1,3 +1,10 @@
+PATH
+  remote: .
+  specs:
+    shell-sim (0.0.1)
+      colorize
+      highline
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -37,3 +44,4 @@ DEPENDENCIES
   pry-nav
   rspec
   rspec-mocks
+  shell-sim!
