@@ -22,9 +22,8 @@ module Filesystem
       reinit
     end
 
-    def reinit(fs_structure=nil)
-      return if fs_structure.nil? && @fs_structure.nil?
-      @fs_structure ||= fs_structure
+    def reinit(fs_structure=ShellSim.config.fs_data)
+      @fs_structure = fs_structure || {'root' => []}
       @root = Directory.new('root')
       @pwd = @root
       Table.instance.reinit
