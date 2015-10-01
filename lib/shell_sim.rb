@@ -5,6 +5,7 @@ require 'shell_sim/exceptions'
 require 'shell_sim/filesystem'
 require 'shell_sim/shell'
 require 'shell_sim/user'
+require 'shell_sim/scripting'
 
 module ShellSim
   def self.configure
