@@ -4,8 +4,9 @@ module Commands
   STDOUT = :stdout
   STDIN = :stdin
 
+
   def self.available_commands
-    @available_commands || get_default_commands
+    @available_commands ||= get_default_commands
   end
 
   def self.available_commands=(commands=available_commands)
@@ -69,8 +70,8 @@ module Commands
     def run
       raise NotImplemented 'You must implement a run method in your command'
     end
-  end
 
-  Dir['commands/lib/*.rb'].each { |file| require File.expand_path file }
+    Dir['lib/shell_sim/commands/*.rb'].each { |file| require File.expand_path file }
+  end
 end
 
