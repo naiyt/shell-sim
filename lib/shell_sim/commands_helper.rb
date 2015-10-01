@@ -70,8 +70,6 @@ module Commands
     def run
       raise NotImplemented 'You must implement a run method in your command'
     end
-
-    Dir['lib/shell_sim/commands/*.rb'].each { |file| require File.expand_path file }
   end
 end
 
