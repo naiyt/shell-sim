@@ -38,10 +38,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  colorize
-  highline
   pry
   pry-nav
-  rspec
-  rspec-mocks
+  rspec (>= 3.0.0)
+  rspec-mocks (>= 3.0.0)
   shell_sim!
+
+BUNDLED WITH
+   1.10.6
