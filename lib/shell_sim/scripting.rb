@@ -19,8 +19,8 @@ module Scripts
       @name = n
     end
 
-    def load_users_file(file_name)
-      Users.reload_users(file_name)
+    def load_users(users_data)
+      Users.resetup_users(useres_data)
     end
 
     def login_as(user_name)
