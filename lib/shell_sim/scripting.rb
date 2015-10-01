@@ -20,7 +20,7 @@ module Scripts
     end
 
     def load_users(users_data)
-      Users.resetup_users(useres_data)
+      Users.resetup_users(users_data)
     end
 
     def login_as(user_name)
