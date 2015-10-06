@@ -88,6 +88,7 @@ module ShellSim
 
       def available_commands(cmds)
         cmds << :task
+        cmds << :exit
         Commands.available_commands = cmds
       end
 
