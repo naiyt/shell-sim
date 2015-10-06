@@ -24,6 +24,7 @@ require 'shell_sim/commands/pwd'
 require 'shell_sim/commands/rmdir'
 require 'shell_sim/commands/task'
 require 'shell_sim/commands/touch'
+require 'shell_sim/commands/time'
 
 module ShellSim
   def self.configure
