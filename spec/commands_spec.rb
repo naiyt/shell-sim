@@ -8,7 +8,7 @@ describe 'initializing a filesystem' do
   end
 
   it "works" do
-    Filesystem::Filesystem.instance
+    ShellSim::Filesystem::Filesystem.instance
   end
 end
 
@@ -20,7 +20,7 @@ describe 'initializing the shell' do
   end
 
   it 'works' do
-    Shell.new('nate', 'password')
+    ShellSim::Shell.new('nate', 'password')
   end
 end
 
