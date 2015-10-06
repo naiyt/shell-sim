@@ -41,7 +41,7 @@ module ShellSim
 
       # http://stackoverflow.com/a/5924541/1026980
       def get_class(cmd_sym)
-        "Commands::#{cmd_sym.capitalize}".split('::').inject(Object) {|o,c| o.const_get c}
+        "ShellSim::Commands::#{cmd_sym.capitalize}".split('::').inject(Object) {|o,c| o.const_get c}
       end
     end
 
