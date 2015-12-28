@@ -53,7 +53,7 @@ module ShellSim
     end
 
     def get_input
-      # TODO: Only works with single quotes so far
+      # TODO: Only works with double quotes so far
 
       # Using readline implemented by: https://github.com/JEG2/highline
       input = ask(prompt) { |q| q.readline = true }
@@ -70,7 +70,7 @@ module ShellSim
       input = input.split("|")
 
       # Strip beginning and ending whitespace
-      input = input.map { |x| x.strip }
+      input = input.map(&:strip)
 
       # Split by words or "quoted words"
       # http://stackoverflow.com/a/11566264/1026980
@@ -92,7 +92,7 @@ module ShellSim
     def parse_redirects(cmd)
       overwrite_index = cmd[:args].index ">"
       append_index = cmd[:args].index ">>"
-      splice_index = !overwrite_index.nil? ? overwrite_index : append_index
+      splice_index = overwrite_index.nil? ? append_index : overwrite_index
       if splice_index
         file_name = cmd[:args][splice_index+1]
         cmd[:args] = cmd[:args][0...splice_index]
