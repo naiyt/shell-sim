@@ -62,8 +62,7 @@ module ShellSim
     end
 
     def prompt
-      path = @fs.pwd.path_to
-      "[#{@user.name}@hacksh #{path}]: "
+      "[#{@user.name}@hacksh #{@fs.pwd.path_to}]: "
     end
 
     def format_input(input)
