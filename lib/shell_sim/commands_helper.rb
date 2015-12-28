@@ -5,7 +5,6 @@ module ShellSim
     STDOUT = :stdout
     STDIN = :stdin
 
-
     def self.available_commands
       @available_commands ||= get_default_commands
     end
