@@ -2,11 +2,11 @@ module ShellSim
   module Commands
     class Filetype < Command
       def self.manual
-        <<-EOS
-  filetype: prints the filtype of a filesystem object
+        <<-EOS.strip_heredoc
+          filetype: prints the filtype of a filesystem object
 
-  stdin: no
-  stdout: yes
+          stdin: no
+          stdout: yes
         EOS
       end
 

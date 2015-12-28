@@ -2,10 +2,10 @@ module ShellSim
   module Commands
     class Cat < Command
       def self.manual
-        <<-EOS
-  cat - send the contents of a file to stdout
+        <<-EOS.strip_heredoc
+          cat - send the contents of a file to stdout
 
-  USAGE: cat [path to file]
+          USAGE: cat [path to file]
         EOS
       end
 

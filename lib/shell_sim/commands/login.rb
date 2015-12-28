@@ -2,10 +2,10 @@ module ShellSim
   module Commands
     class Login < Command
       def self.manual
-        <<-EOS
-  login - login as a user
+        <<-EOS.strip_heredoc
+          login - login as a user
 
-  USAGE: login username userpass
+          USAGE: login username userpass
         EOS
       end
 

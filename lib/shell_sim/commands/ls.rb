@@ -2,11 +2,11 @@ module ShellSim
   module Commands
     class Ls < Command
       def self.manual
-        <<-EOS
-  ls - list the contents of a directory.
+        <<-EOS.strip_heredoc
+          ls - list the contents of a directory.
 
-  stdout: yes
-  stdin: no
+          stdout: yes
+          stdin: no
         EOS
       end
 

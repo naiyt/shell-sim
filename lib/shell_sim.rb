@@ -22,3 +22,10 @@ module ShellSim
     @config = Config.new
   end
 end
+
+# http://stackoverflow.com/a/5638187/1026980
+class String
+  def strip_heredoc
+    gsub /^#{self[/\A[ \t]*/]}/, ''
+  end
+end
