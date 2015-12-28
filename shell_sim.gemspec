@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split($/)
   gem.executables   = []
   gem.test_files    = gem.files.grep(%r{^(test|spec)/})
-  gem.require_paths = ['lib']
+  gem.require_paths = ['lib', 'lib/shell_sim']
 
   gem.required_ruby_version = '>= 2.1.5'
   gem.add_dependency 'highline'
