@@ -16,8 +16,7 @@ module ShellSim
 
     def self.setup_users(users_data = ShellSim.config.users_data)
       users_data.map.with_object({}) do |(user_name, user_data), hash|
-        new_user = User.new(user_name, user_data["password"], user_data["super_user"])
-        hash[user_name] = new_user
+        hash[user_name] = User.new(user_name, user_data["password"], user_data["super_user"])
       end
     end
 
