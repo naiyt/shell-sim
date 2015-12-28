@@ -1,16 +1,16 @@
 # Shell Emulator
 
-This is a basic emulation of a *nix shell and filesystem. This was mainly done as a fun excercise/experiment, and as an idea of a way to create a "hacking game" of sorts (think Uplink or HackNet). As such, it also includes [a barebones scripting DSL](https://github.com/naiyt/shell-sim/blob/master/lib/shell_sim/scripting.rb) that can do things like expect commands to be run with certain arguments, or for specific files or directories to exist. [I have an experiment using that here](https://github.com/naiyt/hacking_game).
+This is a basic emulation of a *nix shell and filesystem. This was mainly done as a fun excercise/experiment, and as a possible way to create a "hacking game" of sorts (think Uplink or HackNet). As such, it also includes [a barebones scripting DSL](https://github.com/naiyt/shell-sim/blob/master/lib/shell_sim/scripting.rb). This DSL can do things like expect commands to be run with certain arguments, or for specific files or directories to exist.
 
 Unlike a real shell, there is no actual forking of processes. Every command is just a shell builtin.
 
 The filesystem is composed of essentially fake directory and file objects, maintained by a `FileSystem` singelton.
 
-The purpose of this is *not* to make any sort of actual viable shell. It's more of a fun experiment to play around with Ruby, learn some interesting shell concepts, and possibly something that could be used to make some sort of game.
+The purpose of this is *not* to make any sort of actual viable shell. It's just a fun experiment to play around with Ruby and learn some interesting shell concepts.
 
-## How to play around with
+## How to mess around with this
 
-You can clone this repo, do a `bundle install`, and then `bundle exec ruby test_run.rb`.
+You can clone this repo, do a `bundle install` and then `bundle exec ruby test_run.rb`.
 
 ## Configuration
 
@@ -34,11 +34,11 @@ shell = ShellSim::Shell.new('root', 'password')
 shell.run
 ```
 
-You can also load your `fs_data` and `users_data` with YAML, as shown [here](https://github.com/naiyt/shell-sim/blob/master/test_run.rb).
+You can also structure your `fs_data` and `users_data` with YAML, as shown [here](https://github.com/naiyt/shell-sim/blob/master/test_run.rb).
 
 ## Things this can do
 
-- All of the commands [here](https://github.com/naiyt/shell-sim/tree/master/lib/shell_sim/commands) have been implemented and run in some way. [grep](https://github.com/naiyt/shell-sim/blob/master/lib/shell_sim/commands/grep.rb) is probably the most interesting one at the moment, but can't currently grep from anything but stdin.
+- All of the commands [here](https://github.com/naiyt/shell-sim/tree/master/lib/shell_sim/commands) have been implemented and run in some way. [grep](https://github.com/naiyt/shell-sim/blob/master/lib/shell_sim/commands/grep.rb) is probably the most interesting one at the moment, doesn't work with anything but stdin yet.
 - Pipes work (more or less), as does output redirection with both `>` and `>>`. Try something like this:
 
 ```shell
@@ -68,11 +68,11 @@ Hacking for fun and profit!
 
 ## Using the scripting DSL
 
-[See this for examples](https://github.com/naiyt/hacking_game).
+[See here for examples](https://github.com/naiyt/hacking_game/tree/master/levels).
 
 ## Implementing a command
 
-New commands must be placed inside of [`lib/shell_sim/commands`(https://github.com/naiyt/shell-sim/tree/master/lib/shell_sim/commands). They must be created as a class that inherits from `Command` with a `run` method.
+New commands must be placed inside of [`lib/shell_sim/commands`](https://github.com/naiyt/shell-sim/tree/master/lib/shell_sim/commands). They must be created as a class that inherits from `Command` with a `run` method.
 
 From there, the command has access to:
 
@@ -82,6 +82,49 @@ From there, the command has access to:
 Return `nil` or `false` if you wish the command to complete silently. Otherwise, just return a string to go to `stdout`.
 
 If you want to write to `stderr`, your `run` method should return a hash in the following format: `{ stderr: 'Erro message' }`.
+
+Here's an example of a pointless command called `cool`. If you pass this command a list of names it will state their coolness factor. If you pass it no names, it will send an error to stderr.
+
+```ruby
+module ShellSim
+  module Commands
+    class Cool < Command
+      def self.manual
+        <<-EOS.strip_heredoc
+          cool - determine the coolness of people.
+
+          Usage: cool [list of names]
+        EOS
+      end
+
+      def run
+        if args.length == 0
+          { stderr: "Nobody is cool..." }
+        else
+          args.map do |person|
+            "#{person} is #{coolness_levels.sample} cool!"
+          end.join("\n")
+        end
+      end
+
+      private
+
+      def coolness_levels
+        ["pretty", "very", "extremely", "not very", "overwhelmingly", "freezing"]
+      end
+    end
+  end
+end
+```
+
+```shell
+[root@hacksh /]: cool Tanya Nate Kira Christa Sean
+Tanya is overwhelmingly cool!
+Nate is very cool!
+Kira is pretty cool!
+Christa is overwhelmingly cool!
+Sean is pretty cool!
+```
 
 ## Future plans / TODOs
 
