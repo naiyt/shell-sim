@@ -14,11 +14,10 @@ module ShellSim
     end
 
     def self.get_default_commands
-      commands = Commands.constants.select do |c|
+      Commands.constants.select do |c|
         constant = Commands.const_get(c)
         constant.is_a?(Class) && constant < Commands::Command
-      end
-      commands.map(&:downcase)
+      end.map(&:downcase)
     end
 
     class CommandRunner
