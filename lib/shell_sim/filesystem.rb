@@ -181,12 +181,7 @@ module ShellSim
 
       def ls
         @children.map.with_object({}) do |(k, v), hash|
-          if v.class == Directory
-            type = :dir
-          else
-            type = :file
-          end
-          hash[k] = type
+          hash[k] = v.class == Directory ? :dir : :file
         end
       end
 
