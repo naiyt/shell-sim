@@ -37,7 +37,13 @@ module ShellSim
     end
 
     def inner_run_loop
-      cmds = get_input
+      input = ask(prompt) { |q| q.readline = true }
+      handle_commands(input)
+    end
+
+    def handle_commands(input)
+      @history << input
+      cmds = format_input(input)
       res = exec_cmds(cmds)
       output res unless (res == default_in || res.nil?)
       [res, cmds]
@@ -50,15 +56,6 @@ module ShellSim
       elsif res.is_a? String
         puts standard res
       end
-    end
-
-    def get_input
-      # TODO: Only works with double quotes so far
-
-      # Using readline implemented by: https://github.com/JEG2/highline
-      input = ask(prompt) { |q| q.readline = true }
-      @history << input
-      format_input(input)
     end
 
     def prompt
