@@ -42,11 +42,13 @@ module ShellSim
     end
 
     def handle_commands(input)
-      @history << input
-      cmds = format_input(input)
-      res = exec_cmds(cmds)
-      output res unless (res == default_in || res.nil?)
-      [res, cmds]
+      unless input == ''
+        @history << input
+        cmds = format_input(input)
+        res = exec_cmds(cmds)
+        output res unless (res == default_in || res.nil?)
+        [res, cmds]
+      end
     end
 
     def output(res)
