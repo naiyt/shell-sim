@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.version        =  ShellSim::VERSION
   gem.date           =  '2015-09-19'
   gem.summary        =  'Simulates a *nix type shell'
-  gem.description    =  'TODO: Add description'
+  gem.description    =  'Add description'
   gem.authors        =  ["Nate Collings"]
   gem.email          =  'nate@natecollings.com'
   gem.homepage       =  'https://github.com/naiyt/shell-sim'
