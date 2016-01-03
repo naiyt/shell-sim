@@ -11,6 +11,7 @@ module ShellSim
       def initialize(&block)
         @shell = Scripts.shell
         @fs = Filesystem::Filesystem.instance
+        @expectations = []
         instance_eval(&block)
       end
 
@@ -40,32 +41,27 @@ module ShellSim
         end
       end
 
-      def expectation(txt)
-        output(txt, :info)
-        until yield
-          output("CURRENT TASK: #{txt}", :info) if is_latest_cmd?('task')
-          next_cmds
-        end
+      def handle_command(result, cmds)
+        @latest_cmds = cmds
+        @latest_res = result
+
+        @expectations.shift if @expectations[0].call
       end
 
       def expect_cmd(cmd, txt=nil)
-        expectation(txt) { is_latest_cmd?(cmd) }
-        yield if block_given?
+        @expectations << lambda { is_latest_cmd?(cmd) }
       end
 
       def expect_cmd_with_args(cmd, args, txt=nil)
-        expectation(txt) { is_latest_cmd?(cmd) && is_latest_args?(Array(args)) }
-        yield if block_given?
+        @expectations << lambda { is_latest_cmd?(cmd) && is_latest_args?(Array(args)) }
       end
 
       def expect_pwd_to_be(dir, txt=nil)
-        expectation(txt) { @fs.pwd.path_to == dir }
-        yield if block_given?
+        @expectations << lambda { @fs.pwd.path_to == dir }
       end
 
       def expect_file_to_exist(filepath, txt=nil)
-        expectation(txt) { @fs.file_exists?(filepath) }
-        yield if block_given?
+        @expectations << lambda { @fs.file_exists?(filepath) }
       end
 
       def expect_dir_to_exist(dir_name, txt=nil)
@@ -73,13 +69,7 @@ module ShellSim
       end
 
       def expect_current_user_to_be(user_name, txt=nil)
-        expectation(txt) { @shell.user.name.to_sym == user_name }
-        yield if block_given?
-      end
-
-      def run_playground(txt=nil)
-        output(txt, :info)
-        @shell.run(forever: true)
+        @expectations << lambda { @shell.user.name.to_sym == user_name }
       end
 
       def greeting
@@ -93,13 +83,6 @@ module ShellSim
       end
 
       private
-
-      def next_cmds
-        @shell.run(forever=false) do |res, cmds|
-          @latest_cmds = cmds
-          @latest_res = res
-        end
-      end
 
       def is_latest_cmd?(cmd)
         unless @latest_cmds.nil?
