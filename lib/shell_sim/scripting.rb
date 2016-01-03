@@ -8,7 +8,8 @@ module ShellSim
       include Commands::OutputHelper
       attr_accessor :shell, :name
 
-      def initialize(&block)
+      def initialize(terminal, &block)
+        @terminal = terminal
         @shell = Scripts.shell
         @fs = Filesystem::Filesystem.instance
         @expectations = []
@@ -30,14 +31,8 @@ module ShellSim
       end
 
       def output(text, type=:standard)
-        # sends to the Commands::OutputHelper methods
         unless text.nil?
-          surrounding_text = self.send(type, "=" * text.size)
-          output_text = self.send(type, text) unless text.nil?
-          if type == :info
-            output_text = "#{surrounding_text}\n#{output_text}\n#{surrounding_text}"
-          end
-          puts output_text
+          @terminal.add_to_buffer(text)
         end
       end
 
