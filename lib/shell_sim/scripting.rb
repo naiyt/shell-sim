@@ -47,7 +47,7 @@ module ShellSim
 
         expectation = @expectations[0]
 
-        buffer_output(expectation[:txt]) if cmds && cmds.first[:cmd] == :task
+        buffer_output("Current task: #{expectation[:txt]}") if cmds && cmds.first[:cmd] == :task
 
         if expectation[:only_txt]
           @expectations.shift
