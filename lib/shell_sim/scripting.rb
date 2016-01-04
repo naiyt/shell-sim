@@ -40,23 +40,35 @@ module ShellSim
         @latest_cmds = cmds
         @latest_res = result
 
-        @expectations.shift if @expectations[0].call
+        if @expectations[0][:cmd].call
+          @expectations.shift
+          output @expectations[0][:txt] if @expectations.size > 0
+        end
+      end
+
+      def add_expectation(expectation, txt)
+        output txt if @expectations.length == 0
+        @expectations << { cmd: expectation, txt: txt }
       end
 
       def expect_cmd(cmd, txt=nil)
-        @expectations << lambda { is_latest_cmd?(cmd) }
+        expectation = lambda { is_latest_cmd?(cmd) }
+        add_expectation(expectation, txt)
       end
 
       def expect_cmd_with_args(cmd, args, txt=nil)
-        @expectations << lambda { is_latest_cmd?(cmd) && is_latest_args?(Array(args)) }
+        expectation = lambda { is_latest_cmd?(cmd) && is_latest_args?(Array(args)) }
+        add_expectation(expectation, txt)
       end
 
       def expect_pwd_to_be(dir, txt=nil)
-        @expectations << lambda { @fs.pwd.path_to == dir }
+        expectation = lambda { @fs.pwd.path_to == dir }
+        add_expectation(expectation, txt)
       end
 
       def expect_file_to_exist(filepath, txt=nil)
-        @expectations << lambda { @fs.file_exists?(filepath) }
+        expectation = lambda { @fs.file_exists?(filepath) }
+        add_expectation(expectation, txt)
       end
 
       def expect_dir_to_exist(dir_name, txt=nil)
@@ -64,7 +76,8 @@ module ShellSim
       end
 
       def expect_current_user_to_be(user_name, txt=nil)
-        @expectations << lambda { @shell.user.name.to_sym == user_name }
+        expectation = lambda { @shell.user.name.to_sym == user_name }
+        add_expectation(expectation, txt)
       end
 
       def greeting
