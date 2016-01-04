@@ -34,7 +34,11 @@ module ShellSim
       end
 
       def output(txt)
-        @expectations << { txt: txt, only_txt: true }
+        if @expectations.length == 0
+          buffer_output(txt)
+        else
+          @expectations << { txt: txt, only_txt: true }
+        end
       end
 
       def handle_command(result, cmds)
