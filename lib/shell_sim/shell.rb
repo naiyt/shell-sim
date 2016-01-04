@@ -38,11 +38,13 @@ module ShellSim
 
     def inner_run_loop
       input = ask(prompt) { |q| q.readline = true }
-      handle_commands(input)
+      handle_input(input)
     end
 
-    def handle_commands(input)
-      unless input == ''
+    def handle_input(input)
+      if input == ''
+        [{ stdout: '' }, nil]
+      else
         @history << input
         cmds = format_input(input)
         res = exec_cmds(cmds)
@@ -108,10 +110,10 @@ module ShellSim
           next_input = @runner.execute(cmd_sym, cmd_args, next_input)
           next_input = redirect_out(next_input.uncolorize, cmd_redirect) if cmd_redirect
         else
-          return {:stderr => "Command not found: #{cmd_sym}" }
+          return { stderr: "Command not found: #{cmd_sym}" }
         end
       end
-      next_input
+      { stdout: next_input }
     end
 
     def redirect_out(data, redirect_hash)
