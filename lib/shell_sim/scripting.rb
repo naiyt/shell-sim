@@ -5,7 +5,6 @@ module ShellSim
     end
 
     class Script
-      include Commands::OutputHelper
       attr_accessor :shell, :name
 
       def initialize(terminal, &block)
@@ -30,24 +29,31 @@ module ShellSim
         @shell.user = Users.users[user_name] # bypasses authentication
       end
 
-      def output(text, type=:standard)
-        unless text.nil?
-          @terminal.add_to_buffer(text)
-        end
+      def buffer_output(text, type=:standard)
+        @terminal.add_to_buffer(text) unless text.nil?
+      end
+
+      def output(txt)
+        @expectations << { txt: txt, only_txt: true }
       end
 
       def handle_command(result, cmds)
         @latest_cmds = cmds
         @latest_res = result
 
-        if @expectations[0][:cmd].call
+        expectation = @expectations[0]
+
+        if expectation[:only_txt]
           @expectations.shift
-          output @expectations[0][:txt] if @expectations.size > 0
+          buffer_output expectation[:text]
+        elsif expectation[:cmd].call
+          @expectations.shift
+          buffer_output @expectations[0][:txt] if @expectations.size > 0
         end
       end
 
       def add_expectation(expectation, txt)
-        output txt if @expectations.length == 0
+        buffer_output txt if @expectations.length == 0
         @expectations << { cmd: expectation, txt: txt }
       end
 
@@ -81,7 +87,7 @@ module ShellSim
       end
 
       def greeting
-        output("Welcome to #{@name}", :info)
+        buffer_output("Welcome to #{@name}", :info)
       end
 
       def available_commands(cmds)
